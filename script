@@ -1,0 +1,47 @@
+// script.js
+document.addEventListener('DOMContentLoaded', () => {
+    const reviewForm = document.getElementById('review-form');
+    const reviewList = document.getElementById('review-list');
+    let reviews = []; // In a real application, you'd fetch this from a server
+
+    // Function to display reviews
+    function displayReviews() {
+        reviewList.innerHTML = ''; // Clear existing reviews
+        reviews.forEach(review => {
+            const reviewDiv = document.createElement('div');
+            reviewDiv.classList.add('review-item');
+            reviewDiv.innerHTML = `
+                <h3>${review.productName}</h3>
+                <p class="rating">Rating: ${'⭐'.repeat(review.rating)}</p>
+                <p>${review.comment}</p>
+            `;
+            reviewList.appendChild(reviewDiv);
+        });
+    }
+
+    // Initial display (if there are any initial reviews)
+    displayReviews();
+
+    // Handle form submission
+    reviewForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
+
+        const productNameInput = document.getElementById('product-name');
+        const ratingInput = document.getElementById('rating');
+        const commentInput = document.getElementById('comment');
+
+        const newReview = {
+            productName: productNameInput.value,
+            rating: parseInt(ratingInput.value),
+            comment: commentInput.value
+        };
+
+        reviews.push(newReview); // In a real app, you'd send this to a server
+        displayReviews(); // Update the displayed reviews
+
+        // Clear the form
+        productNameInput.value = '';
+        ratingInput.value = '';
+        commentInput.value = '';
+    });
+});
